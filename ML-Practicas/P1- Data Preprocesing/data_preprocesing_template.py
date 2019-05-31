@@ -23,7 +23,14 @@ imputer=Imputer(missing_values="NaN",strategy="mean",axis=0)
 imputer=imputer.fit(X[:,1:3])
 X[:,1:3]=imputer.transform(X[:,1:3])
 
-#Codificar datos categoricos
-from sklearn.preprocessing import LabelEncoder
+#Codificar datos categoricos para el País
+from sklearn.preprocessing import LabelEncoder, OneHotEncoder
 labelencoder_X=LabelEncoder()
 X[:,0]=labelencoder_X.fit_transform(X[:,0])
+onehotencoder=OneHotEncoder(categorical_features=[0])
+X=onehotencoder.fit_transform(X).toarray()
+
+#Codificar datos categoricos para la variable dependiente Yes/No en 1/0
+
+labelencoder_Y=LabelEncoder()
+y=labelencoder_Y.fit_transform(y)

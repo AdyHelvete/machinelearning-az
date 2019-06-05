@@ -2,21 +2,17 @@
 #importar el dataset
 
 dataset=read.csv('Data.csv')
+#dataset=dataset[,2:3]
 
-#TRatamiento de los valores NA
+#dividir los datos en conjuntos de entrenamiento y test
+#install.packages("caTools")
+library(caTools)
+set.seed(123) #Semilla para aleatorios
+split=sample.split(dataset$Purchased,SplitRatio =0.8)
 
-dataset$Age=ifelse(is.na(dataset$Age),
-                   ave(dataset$Age,FUN = function(x) mean(x,na.rm=TRUE)),
-                   dataset$Age)
+training_set=subset(dataset,split==TRUE)
+testing_set=subset(dataset,split==FALSE)
 
-dataset$Salary=ifelse(is.na(dataset$Salary),
-                   ave(dataset$Salary,FUN = function(x) mean(x,na.rm=TRUE)),
-                   dataset$Salary)
-
-#codificar las variables categóricas
-
-dataset$Country=factor(dataset$Country,levels=c("France","Spain","Germany"),
-                       labels=c(1,2,3))
-
-dataset$Purchased=factor(dataset$Purchased,levels=c("No","Yes"),
-                       labels=c(0,1))
+# Escalado de valores
+# training_set[,2:3]=scale(training_set[,2:3])
+# testing_set[,2:3]=scale(testing_set[,2:3])

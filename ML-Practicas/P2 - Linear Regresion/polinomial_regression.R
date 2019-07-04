@@ -31,7 +31,7 @@ poly_reg=lm(formula = Salary ~.,
 
 #Visualización del modelo lineal
 #install.packages("ggplot2")
-#library(ggplot2)
+library(ggplot2)
 ggplot()+
   geom_point(aes(x=dataset$Level,y=dataset$Salary),
              color="red")+

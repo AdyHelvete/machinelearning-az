@@ -1,4 +1,4 @@
-#Regresión Ligistica
+#Plantilla de Clasificacipon
 
 #importar dataset
 dataset=read.csv("Social_Network_Ads.csv")
@@ -19,11 +19,10 @@ testing_set=subset(dataset,split==FALSE)
 training_set[,1:2]=scale(training_set[,1:2])
 testing_set[,1:2]=scale(testing_set[,1:2])
 
-#Ajustar modelo de regresión logistica con el conjunto de entrenamiento
+#Ajustar el clasificador con el conjunto de entrenamiento
 
-classifier=glm(formula = Purchased ~.,
-               data = training_set,
-               family = binomial)
+#Aqui
+#classifier=
 
 #predicción de los resultados con el conjunto de testing
 #creamos un vecot r de probabilidades con valores entre 0 y 1
@@ -50,7 +49,7 @@ plot(set[,-3],
      main="Clasificación (Conjunto de training)",
      xlab = "Edad",ylab = "Sueldo estimado",
      xlim = range(X1),ylim = range(X2)
-     )
+)
 contour(X1,X2,matrix(as.numeric(y_grid),length(X1),length(X2)),add=TRUE)
 points(grid_set,pch='.',col=ifelse(y_grid==1,'springgreen3','tomato'))
 points(set,pch=21,bg=ifelse(set[,3]==1,'green4','red3'))

@@ -6,10 +6,6 @@ dataset=read.csv("Social_Network_Ads.csv")
 #Seleccionar columnas de variables
 dataset=dataset[,3:5]
 
-# En algunos casos (BAyes) Codificar la variable de clasificación como factor
-#dataset$Purchased=factor(dataset$Purchased,
-#                     levels=c(0,1))
-
 #dividir los datos en conjuntos de entrenamiento y test
 #install.packages("caTools")
 library(caTools)
@@ -24,11 +20,17 @@ training_set[,1:2]=scale(training_set[,1:2])
 testing_set[,1:2]=scale(testing_set[,1:2])
 
 #Ajustar el clasificador con el conjunto de entrenamiento
-
+#install.packages("e1071")
+library(e1071)
 #Aqui
-#classifier=
+
+classifier=svm(formula=Purchased ~. ,
+               data = training_set,
+               type="C-classification",
+               kernel="radial")
 
 #predicción de los resultados con el conjunto de testing
+#creamos un vecot r de probabilidades con valores entre 0 y 1
 y_pred=predict(classifier,newdata = testing_set[,-3])
 
 
@@ -44,8 +46,9 @@ X2=seq(min(set[,2])-1,max(set[,2])+1, by=0.01)
 grid_set=expand.grid(X1,X2)
 colnames(grid_set)=c("Age","EstimatedSalary")
 y_grid=predict(classifier,newdata = grid_set)
+
 plot(set[,-3],
-     main="Clasificación (Conjunto de training)",
+     main="Clasificación SVM (Conjunto de training)",
      xlab = "Edad",ylab = "Sueldo estimado",
      xlim = range(X1),ylim = range(X2)
 )
@@ -61,7 +64,7 @@ grid_set=expand.grid(X1,X2)
 colnames(grid_set)=c("Age","EstimatedSalary")
 y_grid=predict(classifier,newdata = grid_set)
 plot(set[,-3],
-     main="Clasificación (Conjunto de testing)",
+     main="Clasificación SVM (Conjunto de testing)",
      xlab = "Edad",ylab = "Sueldo estimado",
      xlim = range(X1),ylim = range(X2)
 )

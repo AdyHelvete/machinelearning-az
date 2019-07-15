@@ -1,14 +1,10 @@
-#Plantilla de Clasificacipon
+#Clasificador K-NN
 
 #importar dataset
 dataset=read.csv("Social_Network_Ads.csv")
 
 #Seleccionar columnas de variables
 dataset=dataset[,3:5]
-
-# En algunos casos (BAyes) Codificar la variable de clasificación como factor
-#dataset$Purchased=factor(dataset$Purchased,
-#                     levels=c(0,1))
 
 #dividir los datos en conjuntos de entrenamiento y test
 #install.packages("caTools")
@@ -23,14 +19,14 @@ testing_set=subset(dataset,split==FALSE)
 training_set[,1:2]=scale(training_set[,1:2])
 testing_set[,1:2]=scale(testing_set[,1:2])
 
-#Ajustar el clasificador con el conjunto de entrenamiento
+#Ajustar el clasificador con el conjunto de entrenamiento y hacer predicciones con conjunto de test
 
 #Aqui
-#classifier=
-
-#predicción de los resultados con el conjunto de testing
-y_pred=predict(classifier,newdata = testing_set[,-3])
-
+library(class)
+y_pred=knn(train = training_set[,-3],
+           test = testing_set[,-3],
+           cl=training_set[,3],
+           k=5)
 
 #Crear matriz de confusión
 cm=table(testing_set[,3],y_pred)
@@ -43,9 +39,14 @@ X1=seq(min(set[,1])-1,max(set[,1])+1, by=0.01)
 X2=seq(min(set[,2])-1,max(set[,2])+1, by=0.01)
 grid_set=expand.grid(X1,X2)
 colnames(grid_set)=c("Age","EstimatedSalary")
-y_grid=predict(classifier,newdata = grid_set)
+
+y_grid=knn(train = training_set[,-3],
+           test = grid_set,
+           cl=training_set[,3],
+           k=5)
+
 plot(set[,-3],
-     main="Clasificación (Conjunto de training)",
+     main="Clasificación K-NN(Conjunto de training)",
      xlab = "Edad",ylab = "Sueldo estimado",
      xlim = range(X1),ylim = range(X2)
 )
@@ -59,9 +60,12 @@ X1=seq(min(set[,1])-1,max(set[,1])+1, by=0.01)
 X2=seq(min(set[,2])-1,max(set[,2])+1, by=0.01)
 grid_set=expand.grid(X1,X2)
 colnames(grid_set)=c("Age","EstimatedSalary")
-y_grid=predict(classifier,newdata = grid_set)
+y_grid=knn(train = training_set[,-3],
+           test = grid_set,
+           cl=training_set[,3],
+           k=5)
 plot(set[,-3],
-     main="Clasificación (Conjunto de testing)",
+     main="Clasificación K-NN (Conjunto de testing)",
      xlab = "Edad",ylab = "Sueldo estimado",
      xlim = range(X1),ylim = range(X2)
 )

@@ -1,4 +1,4 @@
-#Plantilla de Clasificacipon
+#Clasificador Naive Bayes
 
 #importar dataset
 dataset=read.csv("Social_Network_Ads.csv")
@@ -6,9 +6,9 @@ dataset=read.csv("Social_Network_Ads.csv")
 #Seleccionar columnas de variables
 dataset=dataset[,3:5]
 
-# En algunos casos (BAyes) Codificar la variable de clasificación como factor
-#dataset$Purchased=factor(dataset$Purchased,
-#                     levels=c(0,1))
+#Codificar la variable de clasificación como factor
+dataset$Purchased=factor(dataset$Purchased,
+                         levels=c(0,1))
 
 #dividir los datos en conjuntos de entrenamiento y test
 #install.packages("caTools")
@@ -24,9 +24,10 @@ training_set[,1:2]=scale(training_set[,1:2])
 testing_set[,1:2]=scale(testing_set[,1:2])
 
 #Ajustar el clasificador con el conjunto de entrenamiento
-
+library(e1071)
 #Aqui
-#classifier=
+classifier=naiveBayes(x=training_set[,-3],
+                      y=training_set[,3])
 
 #predicción de los resultados con el conjunto de testing
 y_pred=predict(classifier,newdata = testing_set[,-3])
@@ -45,7 +46,7 @@ grid_set=expand.grid(X1,X2)
 colnames(grid_set)=c("Age","EstimatedSalary")
 y_grid=predict(classifier,newdata = grid_set)
 plot(set[,-3],
-     main="Clasificación (Conjunto de training)",
+     main="Clasificación Naive Bayes (Conjunto de training)",
      xlab = "Edad",ylab = "Sueldo estimado",
      xlim = range(X1),ylim = range(X2)
 )
@@ -61,7 +62,7 @@ grid_set=expand.grid(X1,X2)
 colnames(grid_set)=c("Age","EstimatedSalary")
 y_grid=predict(classifier,newdata = grid_set)
 plot(set[,-3],
-     main="Clasificación (Conjunto de testing)",
+     main="Clasificación Naive Bayes(Conjunto de testing)",
      xlab = "Edad",ylab = "Sueldo estimado",
      xlim = range(X1),ylim = range(X2)
 )
